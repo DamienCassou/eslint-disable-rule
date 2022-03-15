@@ -1,0 +1,12 @@
+# Generated files
+README.html
+*.elc
+*-pkg.el
+*.tar
+TAGS
+/*-autoloads.el
+
+# Packages
+/.elpa.test
+/elpa
+/makel.mk

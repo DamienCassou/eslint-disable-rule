@@ -26,7 +26,8 @@
 ;;; Commentary:
 
 ;; This file provides the function `eslint-disable-rule-flymake' to add to
-;; `eslint-disable-rule-find-rules-hook'.
+;; `eslint-disable-rule-find-rules-hook'.  This function uses eslint errors
+;; displayed by flymake to find out which rule you might want to ignore.
 
 ;;; Code:
 

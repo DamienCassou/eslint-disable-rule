@@ -36,10 +36,10 @@
   "Commands to add JS comments disabling eslint rules."
   :group 'external)
 
-(defcustom eslint-disable-rule-find-rules-hook '(eslint-disable-rule-flymake)
+(defcustom eslint-disable-rule-find-rules-hook '(eslint-disable-rule-flymake eslint-disable-rule-flycheck)
   "List of functions to find all rules the user might want to ignore."
   :type 'hook
-  :options '(eslint-disable-rule-flymake))
+  :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck))
 
 
 ;;; Utility functions

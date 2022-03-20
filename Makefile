@@ -2,6 +2,7 @@ ELPA_DEPENDENCIES=package-lint
 
 ELPA_ARCHIVES=melpa gnu
 
+TEST_ERT_FILES=$(wildcard test/*.el)
 LINT_CHECKDOC_FILES=$(wildcard *.el) ${TEST_ERT_FILES}
 LINT_PACKAGE_LINT_FILES=$(wildcard *.el) ${TEST_ERT_FILES}
 LINT_COMPILE_FILES=$(wildcard *.el) ${TEST_ERT_FILES}

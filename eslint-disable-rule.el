@@ -50,7 +50,7 @@
 This evaluates all functions in `eslint-disable-rule-find-rules-hook',
 concatenates the results and remove duplicates."
   (let ((rules (mapcan #'funcall eslint-disable-rule-find-rules-hook)))
-    (cl-remove-duplicates rules :test #'string=)))
+    (delete-dups rules)))
 
 (defun eslint-disable-rule--find-rule-name (rule-names)
   "Return a string with the name of an eslint rule to ignore among RULE-NAMES.

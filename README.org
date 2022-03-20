@@ -21,6 +21,38 @@ eslint rule:
 
 [[file:media/disable-next-line.png]]
 
+If you configure ~eslint-disable-rule-all-executable~ and add
+~eslint-disable-rule-all~ to ~eslint-disable-rule-find-rules-hook~
+(see below for details) you will get a list of all active eslint rules
+for the current file. This makes it easy to disable any rule:
+
+[[file:media/all-rules.png]]
+
+** Usage
+
+If you use flymake (provided by Emacs) or [[https://www.flycheck.org/][flycheck]], you can just type
+~M-x eslint-disable-rule-next-line~ to disable the rule that causes you
+a problem at point.
+
+If you use neither flymake nor flycheck, you can still use ~M-x
+eslint-disable-rule-next-line~ but you have to configure
+~eslint-disable-rule-find-rules-hook~ first and maybe
+~eslint-disable-rule-all-executable~ as well (see below).
+
+** Configuration
+*** ~eslint-disable-rule-find-rules-hook~
+
+List of functions that will all be executed to get a list of all
+eslint rule names the user might want to disable.  Feel free to add
+~eslint-disable-rule-all~ to this list once you have configured
+~eslint-disable-rule-all-executable~.
+
+*** ~eslint-disable-rule-all-executable~
+
+Change this variable to reference the "eslint" executable you want to
+run to get the list of all rules. Because I use [[https://github.com/mantoni/eslint_d.js][eslint_d]], this
+variable has value ~"eslint_d"~ for me.
+
 ** Contributing
 
 Yes, please do! See [[file:CONTRIBUTING.md][CONTRIBUTING]] for guidelines.

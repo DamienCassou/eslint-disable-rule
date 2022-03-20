@@ -37,37 +37,55 @@
   :group 'external)
 
 (defcustom eslint-disable-rule-find-rules-hook '(eslint-disable-rule-flymake eslint-disable-rule-flycheck)
-  "List of functions to find all rules the user might want to ignore."
+  "List of functions to find all rules the user might want to disable.
+
+Every function is called with no argument and is expected to return a,
+possibly empty, list of strings.  Each string is an eslint rule name.  The
+first elements of the list should be the rules which have the higher chance
+of being the one the user wants to disable.
+
+Move the hooks which have the higher chance of finding the rule the user
+wants to disable at the beginning of this variable as those choices will be
+more directly accessible.
+
+By default `eslint-disable-rule-all' is not in this list because it
+possibly requires configuring `eslint-disable-rule-all-executable'.  Feel
+free to add it if you want it."
   :type 'hook
-  :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck))
+  :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck eslint-disable-rule-all))
 
 
 ;;; Utility functions
 
 (defun eslint-disable-rule--find-rule-names ()
-  "Return a list of strings of eslint rule names that could be ignored.
+  "Return a list of strings of eslint rule names that could be disabled.
 
 This evaluates all functions in `eslint-disable-rule-find-rules-hook',
 concatenates the results and remove duplicates."
   (let ((rules (mapcan #'funcall eslint-disable-rule-find-rules-hook)))
-    (cl-remove-duplicates rules :test #'string=)))
+    (delete-dups rules)))
 
 (defun eslint-disable-rule--find-rule-name (rule-names)
-  "Return a string with the name of an eslint rule to ignore among RULE-NAMES.
+  "Return a string with the name of an eslint rule to disable among RULE-NAMES.
 
-RULE-NAMES is a list of strings of eslint rule names that could be ignored.
+RULE-NAMES is a list of strings of eslint rule names that could be disabled.
 This list can be generated with `eslint-disable-rule--find-rule-names'."
   (cl-case (length rule-names)
-    (0 (user-error "No rule to ignore here"))
+    (0 (user-error "No rule to disable here"))
     (1 (car rule-names))
-    (otherwise (completing-read "Which rule? " rule-names))))
+    (otherwise (let ((default-rule (car rule-names)))
+                 (completing-read (format "Which rule (default: %s): " default-rule)
+                                  rule-names nil nil nil nil default-rule)))))
 
 
 ;;; Commands
 
 ;;;###autoload
 (defun eslint-disable-rule-disable-next-line (rule-name)
-  "Add eslint-disable-next-line comment above the current line to ignore RULE-NAME."
+  "Add eslint-disable-next-line comment above current line to disable RULE-NAME.
+
+Interactively, ask for RULE-NAME by executing hooks in
+`eslint-disable-rule-find-rules-hook'."
   (interactive (list (eslint-disable-rule--find-rule-name (eslint-disable-rule--find-rule-names))))
   (save-excursion
     (setf (point) (line-beginning-position))

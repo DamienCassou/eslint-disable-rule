@@ -54,6 +54,25 @@ free to add it if you want it."
   :type 'hook
   :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck eslint-disable-rule-all))
 
+(defcustom eslint-disable-rule-require-description 'prefer-description
+  "Whether the user should be asked for a description when disabling a rule.
+
+Adding a description can be made mandatory by adding eslint rule
+\"eslint-comments/require-description\" from the eslint-plugin-comments
+plugin (see URL `https://www.npmjs.com/package/eslint-plugin-comments').
+
+When the value is 'always, the user must enter a non-empty description to
+justify why the rule is disabled.
+
+When the value is 'never, the user is not prompted for a description when
+disabling a rule.
+
+When the value is 'prefer-description, the default, the user is prompted
+for a description but doesn't have to write any."
+  :type '(choice (const :tag "Always" 'always)
+                 (const :tag "Never" 'never)
+                 (const :tag "Prefer description" 'prefer-description)))
+
 
 ;;; Utility functions
 
@@ -77,22 +96,48 @@ This list can be generated with `eslint-disable-rule--find-rule-names'."
                  (completing-read (format "Which rule (default: %s): " default-rule)
                                   rule-names nil nil nil nil default-rule)))))
 
+(defvar eslint-disable-rule--description-history (list)
+  "Previously entered descriptions.")
+
+(defun eslint-disable-rule--maybe-prompt-for-description ()
+  "Ask the user why the rule is disabled.
+Return nil if no description is desired.
+
+What exactly happens depends on the value of
+`eslint-disable-rule-require-description'."
+  (when (memq eslint-disable-rule-require-description '(always prefer-description))
+    (let* ((prompt (if (eq eslint-disable-rule-require-description 'always)
+                       "Description (required): "
+                     "Description: "))
+           (description (read-string prompt nil 'eslint-disable-rule--description-history)))
+      (if (and (string-empty-p description) (eq eslint-disable-rule-require-description 'always))
+          (eslint-disable-rule--maybe-prompt-for-description)
+        (if (string-empty-p description) nil description)))))
+
 
 ;;; Commands
 
 ;;;###autoload
-(defun eslint-disable-rule-disable-next-line (rule-name)
+(defun eslint-disable-rule-disable-next-line (rule-name &optional description)
   "Add eslint-disable-next-line comment above current line to disable RULE-NAME.
 
+If DESCRIPTION is non-nil, insert a description explaining why RULE-NAME
+was disabled.
+
 Interactively, ask for RULE-NAME by executing hooks in
-`eslint-disable-rule-find-rules-hook'."
-  (interactive (list (eslint-disable-rule--find-rule-name (eslint-disable-rule--find-rule-names))))
+`eslint-disable-rule-find-rules-hook'.  Also ask for DESCRIPTION depending
+on `eslint-disable-rule-require-description'."
+  (interactive (list
+                (eslint-disable-rule--find-rule-name (eslint-disable-rule--find-rule-names))
+                (eslint-disable-rule--maybe-prompt-for-description)))
   (save-excursion
     (setf (point) (line-beginning-position))
     (open-line 1)
     (widen)
     (comment-indent)
-    (insert "eslint-disable-next-line " rule-name)))
+    (insert "eslint-disable-next-line " rule-name)
+    (when description
+      (insert " -- " description))))
 
 
 (provide 'eslint-disable-rule)

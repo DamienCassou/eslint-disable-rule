@@ -39,6 +39,18 @@ eslint-disable-rule-next-line~ but you have to configure
 ~eslint-disable-rule-find-rules-hook~ first and maybe
 ~eslint-disable-rule-all-executable~ as well (see below).
 
+Depending on the value of ~eslint-disable-rule-require-description~,
+the user might be prompted for a rationale for disabling a rule. The
+rationale is then inserted next to the rule name being disabled:
+
+#+begin_src js
+  // eslint-disable-next-line jasmine/no-promise-without-done-fail -- s2 is not a promise
+  s2.then((data) => {
+      expect(result).toBe(expected);
+      done();
+  });
+#+end_src
+
 ** Configuration
 *** ~eslint-disable-rule-find-rules-hook~
 
@@ -46,6 +58,14 @@ List of functions that will all be executed to get a list of all
 eslint rule names the user might want to disable.  Feel free to add
 ~eslint-disable-rule-all~ to this list once you have configured
 ~eslint-disable-rule-all-executable~.
+
+*** ~eslint-disable-rule-require-description~
+
+This should be ~'always~, ~'never~ or ~'prefer-description~ (the
+default). If ~'always~, the user is always prompted for a rationale
+when disabling a rule and s·he must type one. If ~'never~, no
+rationale is asked from the user. If ~'prefer-description~, the user
+is asked for a rationale but doesn't have to type any.
 
 *** ~eslint-disable-rule-all-executable~
 

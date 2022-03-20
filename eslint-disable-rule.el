@@ -46,9 +46,13 @@ of being the one the user wants to disable.
 
 Move the hooks which have the higher chance of finding the rule the user
 wants to disable at the beginning of this variable as those choices will be
-more directly accessible."
+more directly accessible.
+
+By default `eslint-disable-rule-all' is not in this list because it
+possibly requires configuring `eslint-disable-rule-all-executable'.  Feel
+free to add it if you want it."
   :type 'hook
-  :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck))
+  :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck eslint-disable-rule-all))
 
 
 ;;; Utility functions

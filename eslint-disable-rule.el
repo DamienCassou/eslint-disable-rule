@@ -37,7 +37,7 @@
   :group 'external)
 
 (defcustom eslint-disable-rule-find-rules-hook '(eslint-disable-rule-flymake eslint-disable-rule-flycheck)
-  "List of functions to find all rules the user might want to ignore."
+  "List of functions to find all rules the user might want to disable."
   :type 'hook
   :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck))
 
@@ -45,7 +45,7 @@
 ;;; Utility functions
 
 (defun eslint-disable-rule--find-rule-names ()
-  "Return a list of strings of eslint rule names that could be ignored.
+  "Return a list of strings of eslint rule names that could be disabled.
 
 This evaluates all functions in `eslint-disable-rule-find-rules-hook',
 concatenates the results and remove duplicates."
@@ -53,12 +53,12 @@ concatenates the results and remove duplicates."
     (delete-dups rules)))
 
 (defun eslint-disable-rule--find-rule-name (rule-names)
-  "Return a string with the name of an eslint rule to ignore among RULE-NAMES.
+  "Return a string with the name of an eslint rule to disable among RULE-NAMES.
 
-RULE-NAMES is a list of strings of eslint rule names that could be ignored.
+RULE-NAMES is a list of strings of eslint rule names that could be disabled.
 This list can be generated with `eslint-disable-rule--find-rule-names'."
   (cl-case (length rule-names)
-    (0 (user-error "No rule to ignore here"))
+    (0 (user-error "No rule to disable here"))
     (1 (car rule-names))
     (otherwise (completing-read "Which rule? " rule-names))))
 
@@ -67,7 +67,7 @@ This list can be generated with `eslint-disable-rule--find-rule-names'."
 
 ;;;###autoload
 (defun eslint-disable-rule-disable-next-line (rule-name)
-  "Add eslint-disable-next-line comment above the current line to ignore RULE-NAME."
+  "Add eslint-disable-next-line comment above current line to disable RULE-NAME."
   (interactive (list (eslint-disable-rule--find-rule-name (eslint-disable-rule--find-rule-names))))
   (save-excursion
     (setf (point) (line-beginning-position))

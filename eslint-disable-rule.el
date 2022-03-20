@@ -37,7 +37,16 @@
   :group 'external)
 
 (defcustom eslint-disable-rule-find-rules-hook '(eslint-disable-rule-flymake eslint-disable-rule-flycheck)
-  "List of functions to find all rules the user might want to disable."
+  "List of functions to find all rules the user might want to disable.
+
+Every function is called with no argument and is expected to return a,
+possibly empty, list of strings.  Each string is an eslint rule name.  The
+first elements of the list should be the rules which have the higher chance
+of being the one the user wants to disable.
+
+Move the hooks which have the higher chance of finding the rule the user
+wants to disable at the beginning of this variable as those choices will be
+more directly accessible."
   :type 'hook
   :options '(eslint-disable-rule-flymake eslint-disable-rule-flycheck))
 
@@ -67,7 +76,10 @@ This list can be generated with `eslint-disable-rule--find-rule-names'."
 
 ;;;###autoload
 (defun eslint-disable-rule-disable-next-line (rule-name)
-  "Add eslint-disable-next-line comment above current line to disable RULE-NAME."
+  "Add eslint-disable-next-line comment above current line to disable RULE-NAME.
+
+Interactively, ask for RULE-NAME by executing hooks in
+`eslint-disable-rule-find-rules-hook'."
   (interactive (list (eslint-disable-rule--find-rule-name (eslint-disable-rule--find-rule-names))))
   (save-excursion
     (setf (point) (line-beginning-position))

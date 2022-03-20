@@ -69,7 +69,9 @@ This list can be generated with `eslint-disable-rule--find-rule-names'."
   (cl-case (length rule-names)
     (0 (user-error "No rule to disable here"))
     (1 (car rule-names))
-    (otherwise (completing-read "Which rule? " rule-names))))
+    (otherwise (let ((default-rule (car rule-names)))
+                 (completing-read (format "Which rule (default: %s): " default-rule)
+                                  rule-names nil nil nil nil default-rule)))))
 
 
 ;;; Commands

@@ -1,9 +1,18 @@
 * eslint-disable-rule
   #+BEGIN_HTML
-        <a href="https://github.com/DamienCassou/eslint-disable-rule/actions">
-          <img alt="pipeline status" src="https://github.com/DamienCassou/eslint-disable-rule/actions/workflows/test.yml/badge.svg" />
-        </a>
-      </p>
+  <p>
+    <a href="https://stable.melpa.org/#/eslint-disable-rule">
+        <img alt="MELPA Stable" src="https://stable.melpa.org/packages/eslint-disable-rule-badge.svg"/>
+    </a>
+
+    <a href="https://melpa.org/#/eslint-disable-rule">
+        <img alt="MELPA" src="https://melpa.org/packages/eslint-disable-rule-badge.svg"/>
+    </a>
+
+    <a href="https://github.com/DamienCassou/eslint-disable-rule/actions">
+      <img alt="pipeline status" src="https://github.com/DamienCassou/eslint-disable-rule/actions/workflows/test.yml/badge.svg" />
+    </a>
+  </p>
   #+END_HTML
 
 ** Summary

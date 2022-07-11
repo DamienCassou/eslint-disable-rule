@@ -71,7 +71,9 @@ but useless, to use even when not using flycheck."
   (and
    (featurep 'flycheck)
    flycheck-mode
-   (member 'javascript-eslint flycheck-enabled-checkers)))
+   (or (member 'javascript-eslint flycheck-enabled-checkers)
+       (and (featurep 'lsp-eslint)
+            (lsp-find-workspace 'eslint (buffer-file-name))))))
 
 (provide 'eslint-disable-rule-flycheck)
 ;;; eslint-disable-rule-flycheck.el ends here

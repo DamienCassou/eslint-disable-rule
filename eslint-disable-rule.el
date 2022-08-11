@@ -105,7 +105,7 @@ Return nil if no description is desired.
 
 What exactly happens depends on the value of
 `eslint-disable-rule-require-description'."
-  (when (memq eslint-disable-rule-require-description '(always prefer-description))
+  (when (memq eslint-disable-rule-require-description '(prefer-description always))
     (let* ((prompt (if (eq eslint-disable-rule-require-description 'always)
                        "Description (required): "
                      "Description: "))

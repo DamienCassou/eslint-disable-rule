@@ -59,15 +59,15 @@ free to add it if you want it."
 
 Adding a description can be made mandatory by adding eslint rule
 \"eslint-comments/require-description\" from the eslint-plugin-comments
-plugin (see URL `https://www.npmjs.com/package/eslint-plugin-comments').
+plugin (see URL https://www.npmjs.com/package/eslint-plugin-comments).
 
-When the value is 'always, the user must enter a non-empty description to
+When the value is `always', the user must enter a non-empty description to
 justify why the rule is disabled.
 
-When the value is 'never, the user is not prompted for a description when
+When the value is `never', the user is not prompted for a description when
 disabling a rule.
 
-When the value is 'prefer-description, the default, the user is prompted
+When the value is `prefer-description', the default, the user is prompted
 for a description but doesn't have to write any."
   :type '(choice (const :tag "Always" always)
                  (const :tag "Never" never)
@@ -131,7 +131,7 @@ on `eslint-disable-rule-require-description'."
                 (eslint-disable-rule--find-rule-name (eslint-disable-rule--find-rule-names))
                 (eslint-disable-rule--maybe-prompt-for-description)))
   (save-excursion
-    (setf (point) (line-beginning-position))
+    (goto-char (line-beginning-position))
     (open-line 1)
     (widen)
     (comment-indent)

@@ -1,6 +1,6 @@
 ;;; eslint-disable-rule-test.el --- Tests for eslint-disable-rule         -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  Damien Cassou
+;; Copyright (C) 2022-2023  Damien Cassou
 
 ;; Author: Damien Cassou <damien@cassou.me>
 ;; Version: 0.3.0

@@ -69,9 +69,9 @@ disabling a rule.
 
 When the value is 'prefer-description, the default, the user is prompted
 for a description but doesn't have to write any."
-  :type '(choice (const :tag "Always" 'always)
-                 (const :tag "Never" 'never)
-                 (const :tag "Prefer description" 'prefer-description)))
+  :type '(choice (const :tag "Always" always)
+                 (const :tag "Never" never)
+                 (const :tag "Prefer description" prefer-description)))
 
 
 ;;; Utility functions
